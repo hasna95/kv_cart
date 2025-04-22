@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+
+  <h2>Search Results for "{{ query }}"</h2>
+  <div class="wishlist-container">
+    {% if products %}
+      {% for item in products %}
+      <div class="cart-item clickable" onclick="window.location.href='/product/{{ item.id }}'">
+  <img src="{{ item.image_url }}" alt="{{ item.name }}">
+  <div class="details">
+    <h4>{{ item.name }}</h4>
+    <p>₹ {{ "%.2f"|format(item.price) }}</p>
+  </div>
+</div>
+
+      {% endfor %}
+    {% else %}
+      <p>No results found for "{{ query }}"</p>
+    {% endif %}
+  </div>
+
+  <script>
+    // Optionally update badge counts if needed
+    updateCartCount?.();
+    updateWishlistCount?.();
+  </script>
+{% endblock %}
+

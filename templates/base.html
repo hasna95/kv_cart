@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}KV Cart{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="navbar-left" onclick="window.location.href='/dashboard'">KV Cart</div>
+    <div class="navbar-center">
+      <a href="/dashboard">Home</a>
+      <a href="/wishlist">Wishlist</a>
+      <a href="#">About</a>
+      <a href="#">Career</a>
+    </div>
+    <div class="navbar-right">
+      <form class="search-form" action="/search" method="get">
+        <input type="text" name="q" class="search-input" placeholder="Search...">
+      </form>
+      <div style="position: relative;">
+        <button class="icon-btn" onclick="window.location.href='/cart'">
+  🛒 <span id="cart-count" class="badge" style="position:absolute;top:-5px;right:-5px;background:red;color:white;border-radius:50%;padding:2px 6px;font-size:12px;">0</span>
+</button>
+      </div>
+      <div style="position: relative;">
+        <button class="icon-btn" onclick="window.location.href='/wishlist'">💖</button>
+        <span id="wishlist-count" style="position:absolute;top:-5px;right:-5px;background:red;color:white;border-radius:50%;padding:2px 6px;font-size:12px;">0</span>
+      </div>
+      <div class="account-dropdown">
+        <button class="icon-btn">👤</button>
+        <div class="dropdown-content">
+          <a href="#">Account Details</a>
+          <a href="/logout">Logout</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  {% block content %}{% endblock %}
+<script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+# Byte-compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+
+# macOS system files
+.DS_Store
+
+# Logs and databases
+*.log
+*.sqlite3
+
+# Python egg files
+*.egg
+*.egg-info/
+dist/
+build/
+
+# IDE-specific files
+.idea/
+.vscode/
+
+# Static files
+staticfiles/
+
+# Media uploads
+media/
+
+# Node modules (if using JavaScript/Node.js)
+node_modules/
+
+# Coverage reports
+htmlcov/
+.coverage
+*.cover
+*.py,cover
+
+# Test output
+.tox/
+.nox/
+*.test
+*.pytest_cache/
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+*.bak
+*.orig
+*.~undo-tree~
+
+# Git-specific files
+*.lock
+.DS_Store

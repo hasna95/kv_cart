@@ -1,0 +1,571 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+    margin: 0;
+    padding: 40px;
+    text-align: center;
+    color: #333;
+}
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+    margin: 0;
+    padding: 0 0 40px;
+    text-align: center;
+    color: #333;
+}
+
+h2, h3 {
+    color: #2c3e50;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #007bff;
+    padding: 10px 20px;
+    color: white;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+    font-weight: 500;
+}
+
+.navbar a:hover {
+    text-decoration: underline;
+}
+
+.navbar-left {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.navbar-center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+}
+
+.search-input {
+    padding: 5px;
+    margin-right: 10px;
+    border-radius: 5px;
+    border: none;
+    width: 150px;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    margin: 0 5px;
+    cursor: pointer;
+    color: white;
+}
+
+.account-dropdown {
+    position: relative;
+}
+
+.account-dropdown .dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: white;
+    color: black;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    z-index: 1;
+    text-align: left;
+}
+
+.account-dropdown .dropdown-content a {
+    padding: 12px 16px;
+    display: block;
+    text-decoration: none;
+    color: black;
+}
+
+.account-dropdown .dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.account-dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.banner {
+    margin: 30px auto;
+    max-width: 90%;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.banner img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.carousel {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    padding: 20px;
+    justify-content: center;
+    scroll-snap-type: x mandatory;
+}
+.carousel-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #2c3e50;
+    text-align: left;
+    padding-left: 20px;
+}
+
+.item {
+    flex: 0 0 auto;
+    background-color: #ffffff;
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    scroll-snap-align: start;
+    transition: transform 0.3s ease;
+    min-width: 150px;
+}
+
+.item:hover {
+    transform: scale(1.05);
+}
+
+.item img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+
+
+h2, h3 {
+    color: #2c3e50;
+}
+
+form:not(.search-form) {
+  background-color: #ffffff;
+  padding: 30px;
+  max-width: 400px;
+  margin: 0 auto 20px;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+input, button {
+    display: block;
+    margin: 15px auto;
+    padding: 12px;
+    width: 90%;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+button {
+    background: linear-gradient(to right, #007bff, #00c6ff);
+    color: white;
+    font-weight: bold;
+    border: none;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background: linear-gradient(to right, #0056b3, #0096c7);
+    cursor: pointer;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.carousel {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    padding: 20px;
+    justify-content: center;
+    scroll-snap-type: x mandatory;
+}
+
+.item {
+    flex: 0 0 auto;
+    background-color: #ffffff;
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    scroll-snap-align: start;
+    transition: transform 0.3s ease;
+}
+
+.item:hover {
+    transform: scale(1.05);
+}
+
+.item img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+
+.banner {
+    margin: 30px auto;
+    max-width: 90%;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.banner img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.product-container {
+    display: flex;
+    gap: 30px;
+    padding: 50px;
+    max-width: 800px;
+    margin: auto;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    align-items: flex-start;
+    margin-bottom: 40px;
+}
+
+.product-container img {
+    max-width: 250px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.product-container .details {
+    text-align: left;
+    flex: 1;
+}
+
+.product-container .details p {
+    margin: 8px 0;
+    line-height: 1.5;
+}
+.wishlist-btn {
+    position: absolute;
+    width: 25%;
+    margin: 0;
+    padding: 1%;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: gray;
+    transition: transform 0.2s ease, color 0.3s ease;
+}
+
+.wishlist-btn.active {
+    color: red;
+    background: transparent;
+    transform: scale(1.2);
+}
+
+.item {
+    position: relative;
+}
+
+.tooltip {
+    position: absolute;
+    top: -25px;
+    right: 0;
+    background: #333;
+    color: #fff;
+    font-size: 12px;
+    padding: 3px 8px;
+    border-radius: 5px;
+    white-space: nowrap;
+    display: none;
+}
+
+.wishlist-btn:hover + .tooltip {
+    display: block;
+}
+
+.carousel-wrapper {
+    position: relative;
+    overflow: hidden;
+    padding: 0 40px; /* space for arrows */
+}
+
+.carousel {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    scroll-snap-type: x mandatory;
+    padding: 20px 0;
+}
+
+.carousel-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    background-color: rgba(0, 0, 0, 0.4);
+    border: none;
+    font-size: 15px;
+    width: 20px;               /* fixed width */
+    height: 40px;              /* fixed height */
+    display: flex;             /* center the arrow inside */
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2;
+    border-radius: 50%;
+    transition: all 0.3s;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.carousel-nav:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+    transform: translateY(-50%) scale(1.1); /* keeps vertical center while scaling */
+}
+
+.carousel-left {
+    left: 10px;
+}
+
+.carousel-right {
+    right: 10px;
+}
+.item {
+    position: relative;
+    background-color: white;
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    scroll-snap-align: start;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    min-width: 160px;
+}
+
+.item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+.carousel-nav {
+    animation: bounceArrow 1.5s infinite alternate;
+}
+
+@keyframes bounceArrow {
+    0% { transform: translateY(-50%) scale(1); }
+    100% { transform: translateY(-50%) scale(1.1); }
+}
+.details label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.details select {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.add-to-cart-btn {
+    background: linear-gradient(to right, #28a745, #218838);
+    color: white;
+    font-weight: bold;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.add-to-cart-btn:hover {
+    background: linear-gradient(to right, #218838, #1e7e34);
+}
+
+.add-to-cart-btn {
+    background: linear-gradient(to right, #ff7f50, #ff4500);
+    color: white;
+    font-weight: bold;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    display: block;
+    margin-top: 20px;
+}
+
+.add-to-cart-btn:hover {
+    background: linear-gradient(to right, #ff6347, #ff0000);
+    transform: scale(1.1);
+}
+
+.cart-container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    text-align: left;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 15px;
+    background: white;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.cart-item img {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.cart-item .details {
+    flex: 1;
+}
+
+.quantity {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.quantity input {
+    width: 50px;
+    text-align: center;
+    font-size: 16px;
+    padding: 5px;
+}
+
+.quantity button {
+    padding: 5px 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.remove {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #c00;
+    cursor: pointer;
+}
+
+.badge {
+    background: red;
+    color: white;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 50%;
+    margin-left: 4px;
+}
+
+.wishlist-container {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+  text-align: left;
+}
+
+.clear-btn {
+  background-color: #dc3545;
+  color: white;
+  padding: 8px 16px;
+  margin: 10px auto;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.clear-btn:hover {
+  background-color: #c82333;
+}
+
+.clickable {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.clickable:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+/* Compact style initially */
+.search-form {
+  padding: 0px;
+  position: relative;
+  margin-right: 10px;
+  transition: all 0.3s ease;
+}
+
+.search-input {
+  padding: 6px 10px;
+  border-radius: 20px;
+  border: none;
+  width: 120px;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  outline: none;
+}
+
+/* On focus: expand and shift left */
+.search-input:focus {
+  width: 200px;
+  margin-right: 10px;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Optional hover animation too */
+.search-input:hover {
+  box-shadow: 0 0 3px rgba(0, 123, 255, 0.3);
+}
+
+
+

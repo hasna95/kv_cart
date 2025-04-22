@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="product-container">
+  <img src="{{ product.image_url }}" alt="{{ product.name }}">
+  <div class="details">
+    <h2>{{ product.name }}</h2>
+    <p><strong>Category:</strong> {{ product.category }}</p>
+    <p><strong>Description:</strong> {{ product.description or 'No description' }}</p>
+    <p><strong>Price:</strong> ₹ {{ "%.2f"|format(product.price) }}</p>
+    <p><strong>In Stock:</strong> {{ product.stock }}</p>
+    <p><strong>Rating:</strong> ⭐ {{ product.rating }}</p>
+    <p><strong>Available:</strong> {{ 'Yes' if product.is_available else 'No' }}</p>
+    <p><strong>Added On:</strong> {{ product.added_on.strftime('%Y-%m-%d %H:%M') }}</p>
+
+    <!-- Add to Cart Button -->
+  <button id="add-to-cart-btn" class="add-to-cart-btn" data-product-id="{{ product.id }}">Add to Cart</button>
+  </div>
+</div>
+
+<script>
+  const addToCartBtn = document.getElementById('add-to-cart-btn');
+  const productId = {{ product.id }};
+  const quantity = 1; // you can enhance this later with a quantity input
+
+  addToCartBtn.addEventListener('click', () => {
+    addToCart(productId, quantity);
+    updateCartCount();
+  });
+</script>
+<a href="/dashboard">⬅ Back to Dashboard</a>
+{% endblock %}
