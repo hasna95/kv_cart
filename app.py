@@ -1,36 +1,49 @@
+import os
+
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 import psycopg2
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import jsonify
 
+# Use Flask
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'
+app.secret_key = os.environ.get("SECRET_KEY", "super-secret")  # Use env var or fallback
 
 
+# Database connection
 def get_db_connection():
-    return psycopg2.connect(
-        dbname="kvcart",
-        user="kvcart_user",
-        password="kv_admin",
-        host="localhost",
-        port="5432"
-    )
+    return psycopg2.connect(os.environ['DATABASE_URL'], sslmode='require')
 
 
 def init_db():
     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS users (
+         CREATE TABLE IF NOT EXISTS users (
+             id SERIAL PRIMARY KEY,
+             email TEXT UNIQUE NOT NULL,
+             password TEXT NOT NULL,
+             first_name TEXT NOT NULL,
+             last_name TEXT NOT NULL,
+             phone TEXT NOT NULL,
+             dob DATE NOT NULL,
+             address TEXT NOT NULL
+         );
+     ''')
+
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS products (
             id SERIAL PRIMARY KEY,
-            first_name TEXT NOT NULL,
-            last_name TEXT NOT NULL,
-            email TEXT UNIQUE NOT NULL,
-            password TEXT NOT NULL,
-            phone TEXT NOT NULL,
-            dob DATE NOT NULL,
-            address TEXT NOT NULL
-        )
+            name TEXT NOT NULL,
+            category TEXT NOT NULL,
+            description TEXT,
+            price DECIMAL(6, 2),
+            stock INTEGER,
+            image_url TEXT,
+            rating DECIMAL(2, 1),
+            is_available BOOLEAN,
+            added_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
     ''')
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS wishlist (
@@ -209,6 +222,7 @@ def wishlist_count():
     conn.close()
     return jsonify({"count": count})
 
+
 @app.route('/api/cart/add', methods=['POST'])
 def add_to_cart():
     import json
@@ -264,6 +278,7 @@ def get_cart():
         for row in cart_items
     ])
 
+
 @app.route('/api/cart/update', methods=['POST'])
 def update_cart():
     import json
@@ -286,6 +301,7 @@ def update_cart():
     conn.close()
     return jsonify({'status': 'success'})
 
+
 @app.route('/api/cart/count')
 def cart_count():
     user_id = session.get('user_id')
@@ -296,17 +312,20 @@ def cart_count():
     conn.close()
     return jsonify({'count': count})
 
+
 @app.route('/cart')
 def cart_page():
     if 'user_id' not in session:
         return redirect('/login')
     return render_template('cart.html')
 
+
 @app.route('/wishlist')
 def wishlist_page():
     if 'user_id' not in session:
         return redirect('/login')
     return render_template('wishlist.html')
+
 
 @app.route('/api/wishlist/items')
 def get_wishlist_items():
@@ -326,6 +345,7 @@ def get_wishlist_items():
         for row in data
     ])
 
+
 @app.route('/api/wishlist/clear', methods=['POST'])
 def clear_wishlist():
     user_id = session.get('user_id')
@@ -335,6 +355,7 @@ def clear_wishlist():
     conn.commit()
     conn.close()
     return jsonify({'status': 'cleared'})
+
 
 @app.route('/search')
 def search():
@@ -361,7 +382,6 @@ def search():
     } for row in results]
 
     return render_template('search.html', products=products, query=query)
-
 
 
 if __name__ == '__main__':
