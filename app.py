@@ -5,6 +5,7 @@ import psycopg2
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import jsonify
 
+
 # Use Flask
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "super-secret")  # Use env var or fallback
@@ -81,7 +82,7 @@ def register():
         password = generate_password_hash(request.form['password'])
         phone = request.form['phone']
         dob = request.form['dob']
-        address = request.form['address']
+        address = request.form.get('address', '')
 
         conn = get_db_connection()
         cursor = conn.cursor()
