@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ category.title() }} Collection</h2>
+
+<div id="product-list" class="product-grid" style="flex-wrap: wrap; display: flex; justify-content: center;">
+  {% for product in products %}
+    <div class="item clickable" onclick="window.location.href='/product/{{ product.id }}'">
+      <img src="{{ product.image_url }}" alt="{{ product.name }}">
+      <h4>{{ product.name }}</h4>
+     {% set display_price = product.price * 0.3325 %}
+      <p><strong>Price:</strong> {{ "%.2f"|format(display_price) }} MVR</p>
+
+
+      <button class="wishlist-btn" onclick="event.stopPropagation(); toggleWishlist({{ product.id }}, this)">♥</button>
+    </div>
+  {% endfor %}
+</div>
+<div id="load-more-end" style="display:none; margin: 20px; font-weight:bold;">🎉 No more products to show!</div>
+
+
+<!--<div style="margin: 20px;">-->
+<!--  <button onclick="loadMore()" id="load-more-btn" class="add-to-cart-btn">Load More</button>-->
+<!--</div>-->
+
+<script>
+let currentPage = {{ page }};
+const category = "{{ category }}";
+let isLoading = false;
+let hasMore = true;
+
+window.addEventListener('scroll', () => {
+  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 && !isLoading && hasMore) {
+    loadMore();
+  }
+});
+
+function loadMore() {
+  isLoading = true;
+  currentPage++;
+
+  // Show skeletons
+  addSkeletons();
+
+  fetch(`/products?category=${category}&page=${currentPage}`, {
+    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+  })
+  .then(response => response.text())
+  .then(html => {
+    removeSkeletons();
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = html;
+    const newProducts = tempDiv.querySelectorAll('.item');
+
+    if (newProducts.length > 0) {
+      const list = document.getElementById('product-list');
+      newProducts.forEach(item => list.appendChild(item));
+      isLoading = false;
+    } else {
+      hasMore = false;
+      document.getElementById('load-more-end').style.display = 'block';
+    }
+  });
+}
+</script>
+
+<script>
+function addSkeletons() {
+  const list = document.getElementById('product-list');
+  for (let i = 0; i < 4; i++) {
+    const skeleton = document.createElement('div');
+    skeleton.className = 'item skeleton';
+    skeleton.innerHTML = `
+      <div class="skeleton-img"></div>
+      <div class="skeleton-text"></div>
+      <div class="skeleton-text short"></div>
+    `;
+    list.appendChild(skeleton);
+  }
+}
+
+function removeSkeletons() {
+  document.querySelectorAll('.skeleton').forEach(el => el.remove());
+}
+</script>
+{% endblock %}

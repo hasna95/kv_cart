@@ -14,13 +14,19 @@ function fetchWishlistItems() {
       }
 
       data.forEach(item => {
+        const rupeePrice = item.price;
+        const conversionRate = 0.19;
+        const mvrPrice = rupeePrice * conversionRate * 1.75;
+
         const card = document.createElement("div");
-        card.className = "cart-item";
+        card.className = "cart-item wishlist-card";
+        card.setAttribute("data-id", item.id); // ✅ store id for safe remove
+
         card.innerHTML = `
           <img src="${item.image_url}" alt="${item.name}">
           <div class="details">
             <h4>${item.name}</h4>
-            <p>₹ ${item.price.toFixed(2)}</p>
+            <p>${mvrPrice.toFixed(2)} MVR</p>
           </div>
           <button class="wishlist-btn active" onclick="removeWishlistItem(${item.id}, this)">♥</button>
         `;
@@ -40,9 +46,20 @@ function removeWishlistItem(productId, btn) {
   .then(res => res.json())
   .then(data => {
     if (data.status === "removed") {
-      btn.closest(".cart-item").remove();
-      wishlistCount--;
-      updateWishlistCount();
+      const card = btn.closest(".wishlist-card");
+      if (card) {
+        card.classList.add("fade-out");
+        setTimeout(() => {
+          card.remove();
+          wishlistCount--;
+          updateWishlistCount();
+
+          // If wishlist is now empty, show empty text
+          if (wishlistCount === 0) {
+            document.getElementById("wishlist-container").innerHTML = "<p>Your wishlist is now empty!</p>";
+          }
+        }, 400); // match CSS animation
+      }
     }
   });
 }
@@ -66,4 +83,5 @@ function updateWishlistCount() {
     });
 }
 
+// Initial load
 fetchWishlistItems();

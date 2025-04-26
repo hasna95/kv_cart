@@ -1,31 +1,214 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="product-container">
-  <img src="{{ product.image_url }}" alt="{{ product.name }}">
+
+  <!-- 📸 Slideshow Section -->
+  <div class="slideshow-wrapper">
+    <div class="slideshow-container">
+      {% if product.product_images %}
+        {% set images = product.product_images.split(',') %}
+        {% for img in images %}
+          <img class="slide" src="{{ img.strip() }}" alt="Product Image">
+        {% endfor %}
+      {% else %}
+        <img class="slide" src="{{ product.image_url }}" alt="{{ product.name }}">
+      {% endif %}
+    </div>
+
+    <a class="prev" onclick="plusSlides(-1)">❮</a>
+    <a class="next" onclick="plusSlides(1)">❯</a>
+
+    <div class="dot-container" style="text-align:center; margin-top: 10px;">
+      {% if product.product_images %}
+        {% for i in range(images|length) %}
+          <span class="dot" onclick="currentSlide({{ i+1 }})"></span>
+        {% endfor %}
+      {% else %}
+        <span class="dot active-dot"></span>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- 🛒 Product Details Section -->
   <div class="details">
     <h2>{{ product.name }}</h2>
     <p><strong>Category:</strong> {{ product.category }}</p>
-    <p><strong>Description:</strong> {{ product.description or 'No description' }}</p>
-    <p><strong>Price:</strong> ₹ {{ "%.2f"|format(product.price) }}</p>
-    <p><strong>In Stock:</strong> {{ product.stock }}</p>
-    <p><strong>Rating:</strong> ⭐ {{ product.rating }}</p>
-    <p><strong>Available:</strong> {{ 'Yes' if product.is_available else 'No' }}</p>
-    <p><strong>Added On:</strong> {{ product.added_on.strftime('%Y-%m-%d %H:%M') }}</p>
 
-    <!-- Add to Cart Button -->
-  <button id="add-to-cart-btn" class="add-to-cart-btn" data-product-id="{{ product.id }}">Add to Cart</button>
+    <!-- Description parsing -->
+    <div class="description-section">
+      <h3>Product Details:</h3>
+      {% set lines = product.full_details.split('\\n') %}
+      <ul class="product-info-list">
+        {% for line in lines %}
+          {% if 'Dispatch' not in line and 'Sizes:' not in line %}
+            {% set parts = line.split(':') %}
+            {% if parts|length == 2 %}
+              <li><strong>{{ parts[0].strip() }}:</strong> {{ parts[1].strip() }}</li>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+      </ul>
+
+      {# Display Available Sizes #}
+      {% if product.sizes %}
+        <h4 style="margin-top: 15px;">Available Sizes:</h4>
+        <div id="size-container" class="sizes-container">
+          {% for size in product.sizes %}
+            <span class="size-chip" onclick="selectSize(this)">{{ size }}</span>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Pricing -->
+    {% set conversion_rate = 0.19 %}
+    {% set display_price = product.min_catalog_price * conversion_rate * 1.75 %}
+    <p style="margin-top: 20px;">
+      <del> {{ "%.2f"|format(product.min_catalog_price) }} MVR</del><br>
+      <span style="font-size: 22px; color: #28a745; font-weight: bold;">
+        Now {{ "%.2f"|format(display_price) }} MVR
+      </span>
+    </p>
+
+    {% if display_price < 200 %}
+    <div class="deal-badge">
+      🔥 New Deal!
+    </div>
+    {% endif %}
+
+    <!-- Quantity Select -->
+    <div style="margin-top: 20px;">
+      <label for="quantity">Quantity:</label>
+      <select id="quantity" style="padding: 5px; margin-left: 10px;">
+        {% for qty in range(1, 6) %}
+          <option value="{{ qty }}">{{ qty }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Add to Cart -->
+    <button id="add-to-cart-btn" class="add-to-cart-btn" style="margin-top: 20px;">Add to Cart</button>
   </div>
 </div>
 
-<script>
-  const addToCartBtn = document.getElementById('add-to-cart-btn');
-  const productId = {{ product.id }};
-  const quantity = 1; // you can enhance this later with a quantity input
+<a href="/dashboard" style="display:block; margin-top:20px;">⬅ Back to Dashboard</a>
 
-  addToCartBtn.addEventListener('click', () => {
-    addToCart(productId, quantity);
-    updateCartCount();
+<!-- 📜 JavaScript -->
+<script>
+let slideIndex = 0;
+let selectedSize = ""; // store selected size
+
+showSlidesAuto();
+
+// Next/previous controls
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
+
+function currentSlide(n) {
+  showSlides(slideIndex = n-1);
+}
+
+function showSlidesAuto() {
+  let slides = document.getElementsByClassName("slide");
+  let dots = document.getElementsByClassName("dot");
+
+  for (let i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+    slides[i].classList.remove("zoom-effect");
+  }
+  slideIndex++;
+  if (slideIndex > slides.length) { slideIndex = 1; }
+
+  for (let i = 0; i < dots.length; i++) {
+    dots[i].classList.remove("active-dot");
+  }
+
+  if (slides.length > 0) {
+    slides[slideIndex-1].style.display = "block";
+    slides[slideIndex-1].classList.add("zoom-effect");
+  }
+  if (dots.length > 0) {
+    dots[slideIndex-1].classList.add("active-dot");
+  }
+
+  setTimeout(showSlidesAuto, 3000); // Auto-play every 3 seconds
+}
+
+function showSlides(n) {
+  let slides = document.getElementsByClassName("slide");
+  let dots = document.getElementsByClassName("dot");
+
+  if (n >= slides.length) { slideIndex = 0; }
+  if (n < 0) { slideIndex = slides.length - 1; }
+
+  for (let i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+    slides[i].classList.remove("zoom-effect");
+  }
+  for (let i = 0; i < dots.length; i++) {
+    dots[i].classList.remove("active-dot");
+  }
+
+  if (slides.length > 0) {
+    slides[slideIndex].style.display = "block";
+    slides[slideIndex].classList.add("zoom-effect");
+  }
+  if (dots.length > 0) {
+    dots[slideIndex].classList.add("active-dot");
+  }
+}
+
+// Size Selection
+function selectSize(elem) {
+  const allSizes = document.getElementsByClassName('size-chip');
+  for (let i = 0; i < allSizes.length; i++) {
+    allSizes[i].classList.remove('selected-size');
+  }
+  elem.classList.add('selected-size');
+  selectedSize = elem.innerText.trim();
+}
+
+// Add to Cart
+const addToCartBtn = document.getElementById('add-to-cart-btn');
+const quantitySelect = document.getElementById('quantity');
+const productId = {{ product.id }};
+
+addToCartBtn.addEventListener('click', () => {
+  const selectedQuantity = parseInt(quantitySelect.value);
+
+  // Simple check: if sizes exist but no size selected
+  const sizeElements = document.getElementsByClassName('size-chip');
+  if (sizeElements.length > 0 && selectedSize === "") {
+    alert("Please select a size first!");
+    return;
+  }
+
+  // Send to backend (you may adjust your /api/cart/add to accept size also)
+  addToCart(productId, selectedQuantity, selectedSize);
+  updateCartCount();
+});
+
+// Modified addToCart function to send size if needed
+function addToCart(productId, quantity, size) {
+  fetch('/api/cart/add', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ product_id: productId, quantity: quantity, size: size })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.status === "success") {
+      showToast("✅ Added to cart!");
+    } else if (data.error) {
+      showToast(`Error: ${data.error}`);
+    }
+  })
+  .catch(err => {
+    console.error("Failed to add product to cart:", err);
+    alert("An error occurred. Please try again.");
   });
+}
 </script>
-<a href="/dashboard">⬅ Back to Dashboard</a>
+
 {% endblock %}

@@ -1,5 +1,6 @@
 let wishlistCount = 0;
 
+
 function updateWishlistIcon(icon, active) {
   if (active) {
     icon.classList.add("active");
@@ -57,10 +58,14 @@ function populateCarousel(apiUrl, containerId) {
           toggleWishlist(item.id, heart);
         });
 
+        // ✅ Correct Price Conversion
+        const conversionRate = 0.19;
+        const displayPriceMvr = item.price * conversionRate * 1.75;
+
         div.innerHTML = `
           <img src="${item.image_url}" alt="${item.name}">
           <h4>${item.name}</h4>
-          <p>₹ ${item.price.toFixed(2)}</p>
+          <p>${displayPriceMvr.toFixed(2)} MVR</p>  <!-- ✅ Now showing converted price -->
         `;
 
         div.addEventListener('click', () => {
@@ -71,7 +76,6 @@ function populateCarousel(apiUrl, containerId) {
         carousel.appendChild(div);
       });
 
-      // Carousel arrows
       const left = document.createElement("button");
       left.className = "carousel-nav carousel-left";
       left.innerHTML = "←";
@@ -89,6 +93,7 @@ function populateCarousel(apiUrl, containerId) {
     });
 }
 
+
 function fetchWishlistCount() {
   fetch('/api/wishlist/count')
     .then(res => res.json())
@@ -97,20 +102,31 @@ function fetchWishlistCount() {
       updateWishlistCountDisplay();
     });
 }
+function showToast(message) {
+  const toast = document.getElementById('toast');
+  toast.innerText = message;
+  toast.className = "toast show";
+  setTimeout(() => {
+    toast.className = toast.className.replace("show", "");
+  }, 3000);
+}
 
-function addToCart(productId, quantity) {
+function addToCart(productId, quantity, size) {
   fetch('/api/cart/add', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ product_id: productId, quantity: quantity })
+    body: JSON.stringify({
+      product_id: productId,
+      quantity: quantity,
+      size: size || null  // 👈 If no size, send null
+    })
   })
   .then(res => res.json())
   .then(data => {
     if (data.status === "success") {
-      alert("Product added to cart!");
-      updateCartCount();  // ✅ ADD THIS
+      showToast("✅ Added to cart!");
     } else if (data.error) {
-      alert(`Error: ${data.error}`);
+      showToast(`Error: ${data.error}`);
     }
   })
   .catch(err => {
@@ -128,7 +144,7 @@ function updateCartCount() {
     });
 }
 
-populateCarousel('/api/vegetables', 'veg-carousel');
-populateCarousel('/api/fruits', 'fruit-carousel');
+populateCarousel('/api/women-gowns', 'women-gowns-carousel');
+populateCarousel('/api/baby-products', 'baby-products-carousel');
 fetchWishlistCount();
 updateCartCount();
