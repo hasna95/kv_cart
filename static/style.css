@@ -23,7 +23,7 @@ h2, h3 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #007bff;
+    background-color: #007fbf;
     padding: 10px 20px;
     color: white;
 }
@@ -131,6 +131,16 @@ h2, h3 {
     color: #2c3e50;
     text-align: left;
     padding-left: 20px;
+}
+
+.carousel-container {
+    background: linear-gradient(135deg, #007fbf, #f0f4f8); /* Light, subtle gradient */
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    max-width: 99%;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 5px 5px;
 }
 
 .item {
@@ -358,6 +368,50 @@ a:hover {
     transition: all 0.3s;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
+.carousel-skeleton {
+    flex: 0 0 auto;
+    background: #eee;
+    border-radius: 15px;
+    height: 230px;   /* same height as product card */
+    min-width: 150px; /* same width as product card */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    scroll-snap-align: start;
+    animation: pulse 1.5s infinite;
+}
+.modal {
+  position: fixed;
+  z-index: 9999;
+  left: 0; top: 0; width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  width: 300px;
+  text-align: center;
+  position: relative;
+}
+
+.modal-content input {
+  width: 90%;
+  margin: 10px 0;
+  padding: 10px;
+}
+
+.close {
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  cursor: pointer;
+  font-size: 24px;
+}
+
+
 
 .carousel-nav:hover {
     background-color: rgba(0, 0, 0, 0.7);
@@ -665,9 +719,9 @@ input:focus, textarea:focus {
 
 .see-all-link {
   font-size: 0.9em;
-  color: #007BFF;
+  color: #007FBF;
   text-decoration: none;
-  margin-right: 10px;
+  margin-right: 8px;
 }
 
 .see-all-link:hover {

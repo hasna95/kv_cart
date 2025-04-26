@@ -15,7 +15,6 @@ Compress(app)
 
 app.secret_key = os.environ.get("SECRET_KEY", "super-secret")  # Use env var or fallback
 
-
 # Database connection
 def get_db_connection():
     return psycopg2.connect(os.environ['DATABASE_URL'], sslmode='require')
@@ -74,7 +73,24 @@ def init_db():
 
 @app.route('/')
 def home():
-    return redirect(url_for('login'))
+    return redirect(url_for('dashboard'))
+
+@app.route('/api/login', methods=['POST'])
+def api_login():
+    email = request.form['email']
+    password = request.form['password']
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM users WHERE email = %s', (email,))
+    user = cursor.fetchone()
+    conn.close()
+
+    if user and check_password_hash(user[2], password):
+        session['user_id'] = user[0]
+        return jsonify({"status": "success"})
+    else:
+        return jsonify({"status": "error", "message": "Invalid credentials"}), 401
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -130,8 +146,6 @@ def login():
 
 @app.route('/dashboard')
 def dashboard():
-    if 'user_id' not in session:
-        return redirect(url_for('login'))
     return render_template('dashboard.html')
 
 
