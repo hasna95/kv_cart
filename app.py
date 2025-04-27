@@ -205,10 +205,10 @@ def product_detail(product_id):
             "product_id": product[1],
             "name": product[2],
             "full_details": full_details,
-            "image_url": product[5],
-            "min_catalog_price": product[6],
-            "product_images": product[7],
-            "category": product[8],
+            "image_url": product[4],
+            "min_catalog_price": product[5],
+            "product_images": product[6],
+            "category": product[7],
             "sizes": sizes   # ✅ Pass ready sizes list
         }
         return render_template('product.html', product=product_info)
