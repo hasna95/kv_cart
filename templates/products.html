@@ -2,7 +2,7 @@
 {% block content %}
 <h2>{{ category.title() }} Collection</h2>
 
-<div id="product-list" class="product-grid" style="flex-wrap: wrap; display: flex; justify-content: center;">
+<div id="product-list" class="product-grid">
   {% for product in products %}
     <div class="item clickable" onclick="window.location.href='/product/{{ product.id }}'">
       <img src="{{ product.image_url }}" alt="{{ product.name }}">
