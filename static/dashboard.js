@@ -173,6 +173,6 @@ function updateCartCount() {
 }
 
 populateCarousel('/api/women-gowns', 'women-gowns-carousel');
-populateCarousel('/api/baby-products', 'baby-products-carousel');
+populateCarousel('/api/one-piece-prayer-dress', 'one-piece-prayer-dress-carousel');
 fetchWishlistCount();
 updateCartCount();

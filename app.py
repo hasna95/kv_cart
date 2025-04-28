@@ -7,8 +7,9 @@ from flask import jsonify
 from flask_compress import Compress
 
 
-
-
+# from dotenv import load_dotenv
+#
+# load_dotenv()
 # Use Flask
 app = Flask(__name__)
 Compress(app)
@@ -155,11 +156,11 @@ def logout():
     return redirect(url_for('login'))
 
 
-@app.route('/api/baby-products')
+@app.route('/api/one-piece-prayer-dress')
 def api_baby_products():
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT id, name, min_catalog_price, image FROM products WHERE category = 'gown' LIMIT 20")
+    cursor.execute("SELECT id, name, min_catalog_price, image FROM products WHERE category = 'prayer_dress' LIMIT 20")
     veggies = cursor.fetchall()
     conn.close()
     return jsonify([{"id": v[0], "name": v[1], "price": float(v[2]), "image_url": v[3]} for v in veggies])
